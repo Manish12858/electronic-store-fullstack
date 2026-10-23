@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -82,6 +82,7 @@ public class UserControllerTest {
 
 
     @Test
+    @WithMockUser(username = "rahul@gmail.com", roles = "NORMAL")
     public void updateUserTest() throws Exception {
 
         // /users/{userId} + PUT request+ json
@@ -93,7 +94,6 @@ public class UserControllerTest {
 
         this.mockMvc.perform(
                         MockMvcRequestBuilders.put("/users/" + userId)
-                                .header(HttpHeaders.AUTHORIZATION, "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdXJnZXNoQGRldi5pbiIsImlhdCI6MTY3NTI0OTA0MywiZXhwIjoxNjc1MjY3MDQzfQ.HQbZ4BrQlAgd5X40RZJhSMZ0zgZAfDcQtxJaSy97YZHgdNBV0g2r7-ZXRmw1EkKhkFtdkytG_E6I7MnsxVEZqg")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(convertObjectToJsonString(user))
                                 .accept(MediaType.APPLICATION_JSON)

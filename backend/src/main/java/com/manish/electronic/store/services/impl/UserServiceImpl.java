@@ -83,8 +83,10 @@ public class UserServiceImpl implements UserService {
         user.setAbout(userDto.getAbout());
         user.setGender(userDto.getGender());
 
-        if (!userDto.getPassword().equalsIgnoreCase(user.getPassword()))
-            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        // only change the password when a new one is actually sent
+        String newPassword = userDto.getPassword();
+        if (newPassword != null && !newPassword.isBlank() && !newPassword.equals(user.getPassword()))
+            user.setPassword(passwordEncoder.encode(newPassword));
 
         user.setImageName(userDto.getImageName());
         //save data
